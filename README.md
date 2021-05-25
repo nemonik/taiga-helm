@@ -11,7 +11,7 @@ Written for Helm 3.
 You can clone this repo, enter the repository folder and then execute something like the [start_taiga.sh](start_taiga.sh).
 
 The script will spin up Taiga using the example [example_values.yaml](example_values.yaml) values file.  You will need
-to provide your own if you want to configure other settings, and ingress, etc.  Look at [taiga/values.yaml](taiga/values.yaml)
+to provide your own if you want to configure other settings, and ingress, etc.  Look at [values.yaml](values.yaml)
 for what to place in your own.
 
 ## To install via my chart repository
