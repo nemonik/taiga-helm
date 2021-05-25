@@ -1,0 +1,47 @@
+name: Package changes so helm can access
+
+on:
+  push:
+    branches:
+      - master
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: lint chart
+        run: helm lint .
+                
+      - uses: actions/checkout@v2
+        with:
+          repository: nemonik/helm-charts
+          token: ${{ secrets.ACTION_TOKEN }}
+          path: helm-charts
+          ref: master
+          
+      - name: Package chart
+        run: |
+          PROJECT=$(basename ${GITHUB_WORKSPACE})
+          PROJECT="${PROJECT/-helm/}"
+          cd helm-charts
+          mkdir -p sources
+          cd sources
+          rsync -av --progress ${GITHUB_WORKSPACE}/. ${PROJECT} --exclude helm-charts --exclude .git --exclude *.tgz --exclude delete_taiga.sh  --exclude example-values.yaml  --exclude init.sh  --exclude  manage.sh --execlude start_taiga.sh --exclude .github --exclude .gitignore --exclude robot.txt
+          cd .. 
+          helm package sources/*
+          helm repo index --url https://nemonik.github.io/helm-charts/ .  
+          echo "CHARTS=$(pwd)" >> $GITHUB_ENV
+          
+      - name: Commit and push changes to my helm charts repository
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.ACTION_TOKEN }} 
+          directory: ${{ env.CHARTS }}
+          repository: nemonik/helm-charts
+          author_name: nemonik
+          author_email: github.com@nemonik.com

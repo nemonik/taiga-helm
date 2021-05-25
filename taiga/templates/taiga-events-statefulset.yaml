@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name:  {{ include "taiga.fullname" . }}-events
+  labels:
+    {{- include "taiga.labels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-events
+spec:
+  serviceName: {{ template "taiga.fullname" . }}-events
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "taiga.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: taiga-events
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "taiga.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: taiga-events
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.taigaEvents.podSecurityContext | nindent 8 }}
+      containers:
+        - name: taiga-events
+          securityContext:
+            {{- toYaml .Values.taigaEvents.securityContext | nindent 12 }}
+          image: "{{ .Values.taigaEvents.image.repository }}:{{ .Values.taigaEvents.image.tag }}"
+          imagePullPolicy: {{ .Values.taigaEvents.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8888
+          env:
+            - name: RABBITMQ_PASS
+              value: taiga
+            - name: RABBITMQ_USER
+              value: taiga
+            - name: TAIGA_SECRET_KEY
+              value: taiga-back-secret-key
+          {{- with .Values.taigaEvents.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.taigaEvents.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaEvents.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaEvents.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: Always

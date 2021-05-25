@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "taiga.fullname" . }}-db
+  labels:
+    {{- include "taiga.labels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-db
+spec:
+  serviceName: {{ template "taiga.fullname" . }}-db
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "taiga.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: taiga-db
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "taiga.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: taiga-db
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.taigaDB.podSecurityContext | nindent 8 }}
+      containers:
+        - name: taiga-db
+          securityContext:
+            {{- toYaml .Values.taigaDB.securityContext | nindent 12 }}
+          image: "{{ .Values.taigaDB.image.repository }}:{{ .Values.taigaDB.image.tag }}"
+          imagePullPolicy: {{ .Values.taigaDB.image.pullPolicy }}
+          ports:
+            - name: sql
+              containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: {{ .Values.env.postgresDB | quote }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.env.postgresPassword | quote }}
+            - name: POSTGRES_USER
+              value: {{ .Values.env.postgresUser | quote }}
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: taiga-db-data
+          {{- with .Values.taigaDB.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.taigaDB.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaDB.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaDB.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: Always
+      volumes:
+        - name: taiga-db-data
+        {{- if .Values.taigaDB.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "taiga.fullname" . }}-db-data
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+

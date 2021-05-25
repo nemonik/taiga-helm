@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "taiga.fullname" . }}-async-rabbitmq
+  labels:
+    {{- include "taiga.labels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-async-rabbitmq
+spec:
+  serviceName: {{ template "taiga.fullname" . }}-async-rabbitmq
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "taiga.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: taiga-async-rabbitmq
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "taiga.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: taiga-async-rabbitmq
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.taigaAsyncRabbitmq.podSecurityContext | nindent 8 }}
+      containers:
+        - name: taiga-async-rabbitmq
+          securityContext:
+            {{- toYaml .Values.taigaAsyncRabbitmq.securityContext | nindent 12 }}
+          image: "{{ .Values.taigaAsyncRabbitmq.image.repository }}:{{ .Values.taigaAsyncRabbitmq.image.tag }}"
+          imagePullPolicy: {{ .Values.taigaAsyncRabbitmq.image.pullPolicy }}
+          ports:
+            - name: amqp
+              containerPort: 5672
+          env:
+            - name: RABBITMQ_DEFAULT_PASS
+              value: {{ .Values.env.rabbitmqPass | quote }}
+            - name: RABBITMQ_DEFAULT_USER
+              value: {{ .Values.env.rabbitmqUser | quote }}
+            - name: RABBITMQ_DEFAULT_VHOST
+              value: {{ .Values.env.rabbitmqVhost | quote }}
+            - name: RABBITMQ_ERLANG_COOKIE
+              value: {{ .Values.env.rabbitmqErlangCookie | quote }}
+          volumeMounts:
+            - mountPath: /var/lib/rabbitmq
+              name: taiga-async-rabbitmq-data
+          {{- with .Values.taigaAsyncRabbitmq.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.taigaAsyncRabbitmq.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaAsyncRabbitmq.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaAsyncRabbitmq.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: Always
+      volumes:
+        - name: taiga-async-rabbitmq-data
+        {{- if .Values.taigaAsyncRabbitmq.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "taiga.fullname" . }}-async-rabbitmq-data
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+

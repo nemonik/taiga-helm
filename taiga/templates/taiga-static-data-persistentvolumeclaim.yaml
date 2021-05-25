@@ -1,0 +1,13 @@
+{{- if .Values.persistence.static.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "taiga.fullname" . }}-static-data
+spec:
+  accessModes:
+  - {{ .Values.persistence.static.accessMode }}
+  storageClassName: {{ .Values.persistence.static.storageClassName}}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.static.size }}
+{{- end }}

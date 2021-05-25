@@ -1,0 +1,13 @@
+{{- if .Values.persistence.media.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "taiga.fullname" . }}-media-data
+spec:
+  accessModes:
+  - {{ .Values.persistence.media.accessMode }}
+  storageClassName: {{ .Values.persistence.media.storageClassName}}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.media.size }}
+{{- end }}

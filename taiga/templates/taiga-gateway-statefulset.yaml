@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name:  {{ include "taiga.fullname" . }}-gateway
+  labels:
+    {{- include "taiga.labels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-gateway
+spec:
+  serviceName: {{ template "taiga.fullname" . }}-gateway
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "taiga.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: taiga-gateway
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "taiga.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: taiga-gateway
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.taigaGateway.podSecurityContext | nindent 8 }}
+      containers:
+        - name: taiga-gateway
+          securityContext:
+            {{- toYaml .Values.taigaGateway.securityContext | nindent 12 }}
+          image: "{{ .Values.taigaGateway.image.repository }}:{{ .Values.taigaGateway.image.tag }}"
+          imagePullPolicy: {{ .Values.taigaGateway.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - mountPath: /etc/nginx/conf.d
+              name: taiga-configmap-volume
+            - mountPath: /taiga/static
+              name: taiga-static-data
+            - mountPath: /taiga/media
+              name: taiga-media-data
+          {{- with .Values.taigaGateway.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.taigaGateway.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaGateway.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaGateway.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: Always
+      volumes:
+        - name: taiga-configmap-volume
+          configMap:
+            name: taiga-gateway-configmap
+        - name: taiga-static-data
+          persistentVolumeClaim:
+            claimName: {{ include "taiga.fullname" . }}-static-data
+        - name: taiga-media-data
+          persistentVolumeClaim:
+            claimName: {{ include "taiga.fullname" . }}-media-data

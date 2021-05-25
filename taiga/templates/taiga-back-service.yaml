@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "taiga.fullname" . }}-back
+  labels:
+    {{- include "taiga.labels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-back
+spec:
+  type: {{ .Values.taigaBack.service.type }}
+  ports:
+    - name: http
+      targetPort: http
+      port: {{ .Values.taigaBack.service.port }}
+      protocol: TCP
+  selector:
+    {{- include "taiga.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-back

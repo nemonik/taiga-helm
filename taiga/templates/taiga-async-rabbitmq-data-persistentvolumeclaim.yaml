@@ -1,0 +1,13 @@
+{{- if .Values.taigaAsyncRabbitmq.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "taiga.fullname" . }}-async-rabbitmq-data
+spec:
+  accessModes:
+  - {{ .Values.taigaAsyncRabbitmq.persistence.accessMode }}
+  storageClassName: {{ .Values.taigaAsyncRabbitmq.persistence.storageClassName}}
+  resources:
+    requests:
+      storage: {{ .Values.taigaAsyncRabbitmq.persistence.size }}
+{{- end }}

@@ -1,0 +1,13 @@
+{{- if .Values.taigaDB.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "taiga.fullname" . }}-db-data
+spec:
+  accessModes:
+  - {{ .Values.taigaDB.persistence.accessMode }}
+  storageClassName: {{ .Values.taigaDB.persistence.storageClassName}}
+  resources:
+    requests:
+      storage: {{ .Values.taigaDB.persistence.size }}
+{{- end }}

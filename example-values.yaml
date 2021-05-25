@@ -1,0 +1,307 @@
+#
+# Example values file used to install Taiga
+#
+
+persistence:
+  media:
+    enabled: true
+    size: '100Mi'
+    storageClassName: 'local-path'
+    accessMode: 'ReadWriteOnce'
+  static:
+    enabled: true
+    size: '100Mi'
+    storageClassName: 'local-path'
+    accessMode: 'ReadWriteOnce'
+
+env: 
+  taigaURL: "http://localhost:9000"
+  taigaWebsocketsURL: "ws://localhost:9000"  ## wss:// if https 
+
+  taigaSitesDomain: "localhost:9000"
+  taigaSitesScheme: "http"
+  
+taigaAsyncRabbitmq:
+
+  persistence:
+    ## Volume used to store the Taiga Async RabbitMQ's data. Default is boolean `false`.
+    ##
+    enabled: true
+    size: '100Mi'
+    storageClassName: 'local-path'
+    accessMode: 'ReadWriteOnce'
+
+  service:
+    type: ClusterIP
+    port: 5672
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaAsync:
+
+  service:
+    type: ClusterIP
+    port: 8000
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  
+taigaBack:
+
+  service:
+    type: ClusterIP
+    port: 8000
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaDB:
+
+  persistence:
+    ## Volume used to store Taiga DB data. Default is boolean `false`.
+    ##
+    enabled: true
+    size: '100Mi'
+    ## Sets persistent volume claim's storageClassName. Defaults to `default`.
+    ##
+    storageClassName: 'local-path'
+    accessMode: 'ReadWriteOnce'
+
+  service:
+    type: ClusterIP
+    port: 5432
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaEventsRabbitmq:
+
+  persistence:
+    enabled: true
+    size: '100Mi'
+    storageClassName: 'local-path'
+    accessMode: 'ReadWriteOnce'
+
+  service:
+    type: ClusterIP
+    port: 5672
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaEvents:
+
+  service:
+    type: ClusterIP
+    port: 8888
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaFront:
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaGateway:
+
+  persistence:
+    ## Volume used to store the Taiga Gateway's data. Default is boolean `false`.
+    ##
+    enabled: true
+    size: '100Mi'
+    ## Sets persistent volume claim's storageClassName. Defaults to `default`.
+    ##
+    storageClassName: 'local-path'
+    accessMode: 'ReadWriteOnce'
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaProtected:
+
+  service:
+    type: ClusterIP
+    port: 8003
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}

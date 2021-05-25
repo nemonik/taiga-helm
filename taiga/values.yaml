@@ -1,0 +1,430 @@
+# Default values for taiga.
+
+imagePullSecrets: []
+# - name: "image-pull-secret"
+
+persistence:
+  media:
+    ## Volume used to store the Taiga Gateway's data. Default is boolean `false`.
+    ##
+    enabled: false
+    size: '100Mi'
+    ## Sets persistent volume claim's storageClassName. Defaults to `default`.
+    ##
+    storageClassName: 'default'
+    accessMode: 'ReadWriteOnce'
+  static:
+    ## Volume used to store the Taiga Gateway's data. Default is boolean `false`.
+    ##
+    enabled: false
+    size: '100Mi'
+    ## Sets persistent volume claim's storageClassName. Defaults to `default`.
+    ##
+    storageClassName: 'default'
+    accessMode: 'ReadWriteOnce'
+
+env: 
+  taigaURL: "http://localhost:9000"
+  taigaWebsocketsURL: "ws://localhost:9000"
+
+  taigaSecretKey: "taiga-back-secret-key"
+  taigaSitesDomain: "localhost:9000"
+  taigaSitesScheme: "http"     
+  
+  publicRegisterEnabled: "false"
+
+  enableSlack: "false"
+
+  postgresUser: "taiga"
+  postgresPassword: "taiga"
+  postgresDB: "taiga"
+
+  enableEmail: "false"
+  emailBackend: "django.core.mail.backends.smtp.EmailBackend"
+  defaultFromEmail: "no-reply@example.com"
+  emailHost: "smtp.host.example.com"
+  emailPort: "587"
+  emailHostUser: "user"
+  emailHostPassword: "password"
+  emailUseTLS: "true"
+  emailUseSSL: "true"
+
+  enableTelemetry: "true"
+
+  rabbitmqPass: "taiga"
+  rabbitmqUser: "taiga"
+  rabbitmqErlangCookie: "secret-erlang-cookie"
+  rabbitmqVhost: "taiga"
+
+  enableGithubAuth: "false"
+  githubApiClientID: "github-api-client-id"
+  githubApiClientSecret: "github-api-client-secret"
+
+  enableGitlabAuth: "false"
+  gitlabClientID: "gitlab-client-id"
+  gitlabApiClientSecret: "gitlab-api-client-secret"
+  gitlabURL: "gitlab-url"
+
+  enableGithubImporter: "false"
+  githubImporterClientID: "client-id-from-github"
+  githubImporterClientSecret: "client-secret-from-github"
+  
+  enableJiraImporter: "false"
+  jiraImporterConsumerKey: "consumer-key-from-jira"
+  jiraImporterCert: "cert-from-jira"
+  jiraImporterPubCert: "pub-cert-from-jira"
+
+  enableTrelloImporter: "false"
+  trelloImporterApiKey: "api-key-from-trello"
+  trelloImporterSecretKey: "secret-key-from-trello"
+
+  maxAge: "360"
+
+taigaAsyncRabbitmq:
+
+  image:
+    repository: rabbitmq
+    pullPolicy: IfNotPresent
+    tag: "3-management-alpine"
+
+  persistence:
+    ## Volume used to store the Taiga Async RabbitMQ's data. Default is boolean `false`.
+    ##
+    enabled: false
+    size: '100Mi'
+    ## Sets persistent volume claim's storageClassName. Defaults to `default`.
+    ##
+    storageClassName: 'default'
+    accessMode: 'ReadWriteOnce'
+
+  service:
+    type: ClusterIP
+    port: 5672
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaAsync:
+
+  image:
+    repository: taigaio/taiga-back      
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  service:
+    type: ClusterIP
+    port: 8000
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  
+taigaBack:
+
+  image:
+    repository: taigaio/taiga-back
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  service:
+    type: ClusterIP
+    port: 8000
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaDB:
+
+  enable: true
+
+  image:
+    repository: postgres     
+    pullPolicy: IfNotPresent
+    tag: "12.3"
+
+  persistence:
+    ## Volume used to store Taiga DB data. Default is boolean `false`.
+    ##
+    enabled: false
+    size: '100Mi'
+    ## Sets persistent volume claim's storageClassName. Defaults to `default`.
+    ##
+    storageClassName: 'default'
+    accessMode: 'ReadWriteOnce'
+
+  service:
+    type: ClusterIP
+    port: 5432
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaEventsRabbitmq:
+
+  image:
+    repository: rabbitmq      
+    pullPolicy: IfNotPresent
+    tag: "3-management-alpine"
+
+  persistence:
+    ## Volume used to store the Taiga Events RabbitMQ's data. Default is boolean `false`.
+    ##
+    enabled: false
+    size: '100Mi'
+    ## Sets persistent volume claim's storageClassName. Defaults to `default`.
+    ##
+    storageClassName: 'default'
+    accessMode: 'ReadWriteOnce'
+
+  service:
+    type: ClusterIP
+    port: 5672
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaEvents:
+
+  image:
+    repository: taigaio/taiga-events     
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  service:
+    type: ClusterIP
+    port: 8888
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaFront:
+
+  image:
+    repository: taigaio/taiga-front  
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaGateway:
+
+  image:
+    repository: nginx    
+    pullPolicy: IfNotPresent
+    tag: "1.19-alpine"
+
+  persistence:
+    ## Volume used to store the Taiga Gateway's data. Default is boolean `false`.
+    ##
+    enabled: false
+    size: '100Mi'
+    ## Sets persistent volume claim's storageClassName. Defaults to `default`.
+    ##
+    storageClassName: 'default'
+    accessMode: 'ReadWriteOnce'
+
+  ingress:
+    enable: false
+    # traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    # traefik.ingress.kubernetes.io/router.tls: 'true'
+    # traefik.ingress.kubernetes.io/service.sticky.cookie: 'true'
+
+    hosts:
+      - host: gitlab.example.com
+        paths:
+          -  "/"
+
+  service:
+    type: ClusterIP
+    port: 9000
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+taigaProtected:
+
+  image:
+    repository: taigaio/taiga-protected     
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  service:
+    type: ClusterIP
+    port: 8003
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}

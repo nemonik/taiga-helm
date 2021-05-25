@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "taiga.fullname" . }}-protected
+  labels:
+    {{- include "taiga.labels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-protected
+spec:
+  type: {{ .Values.taigaProtected.service.type }}
+  ports:
+    - name: http
+      targetPort: http
+      port: {{ .Values.taigaProtected.service.port }}
+      protocol: TCP
+  selector:
+    {{- include "taiga.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-protected

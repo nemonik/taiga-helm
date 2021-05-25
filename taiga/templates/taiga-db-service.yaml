@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "taiga.fullname" . }}-db
+  labels:
+    {{- include "taiga.labels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-db
+spec:
+  type: {{ .Values.taigaDB.service.type }}
+  ports:
+    - name: sql
+      targetPort: sql
+      port: {{ .Values.taigaDB.service.port }}
+      protocol: TCP
+  selector:
+    {{- include "taiga.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-db

@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name:  {{ include "taiga.fullname" . }}-front
+  labels:
+    {{- include "taiga.labels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-front
+spec:
+  serviceName: {{ template "taiga.fullname" . }}-front
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "taiga.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: taiga-front
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "taiga.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: taiga-front
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.taigaFront.podSecurityContext | nindent 8 }}
+      containers:
+        - name: taiga-front
+          securityContext:
+            {{- toYaml .Values.taigaFront.securityContext | nindent 12 }}
+          image: "{{ .Values.taigaFront.image.repository }}:{{ .Values.taigaFront.image.tag }}"
+          imagePullPolicy: {{ .Values.taigaFront.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+          env:
+            - name: TAIGA_URL
+              value: {{ .Values.env.taigaURL | quote }}
+            - name: TAIGA_WEBSOCKETS_URL
+              value: {{ .Values.env.taigaWebsocketsURL | quote }}
+
+            - name: PUBLIC_REGISTER_ENABLED
+              value: {{ lower .Values.env.publicRegisterEnabled | quote }}
+
+            - name: ENABLE_SLACK
+              value: {{ lower .Values.env.enableSlack | quote }}
+
+            {{- if eq (lower .Values.env.enableGithubAuth) "true" }}
+            - name: ENABLE_GITHUB_AUTH
+              value: {{ lower .Values.env.enableGithubAuth | quote }}
+            - name: GITHUB_API_CLIENT_ID
+              value: {{ .Values.env.githubApiClientID | quote }}
+            {{- end }}
+
+            {{- if eq (lower .Values.env.enableGitlabAuth) "true" }}
+            - name: ENABLE_GITLAB_AUTH
+              value: {{ lower .Values.env.enableGitlabAuth | quote }}
+            - name: GITLAB_CLIENT_ID
+              value: {{ .Values.env.gitlabClientID | quote }}
+            - name: GITLAB_URL
+              value: {{ .Values.env.gitlabURL | quote }}
+            {{- end }}
+
+            {{- if eq (lower .Values.env.enableGithubImporter) "true" }}
+            - name: ENABLE_GITHUB_IMPORTER 
+              value: {{ lower .Values.env.enableGithubImporter | quote }}
+            {{- end }}
+
+            {{- if eq (lower .Values.env.enableJiraImporter) "true" }}
+            - name: ENABLE_JIRA_IMPORTER
+              value: {{ lower .Values.env.enableJiraImporter | quote }}
+            {{- end }}
+
+            {{- if eq (lower .Values.env.enableTrelloImporter) "true" }}
+            - name: ENABLE_TRELLO_IMPORTER
+              value: {{ lower .Values.env.enableTrelloImporter | quote }}
+            {{- end }}
+          {{- with .Values.taigaFront.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.taigaFront.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaFront.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaFront.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: Always

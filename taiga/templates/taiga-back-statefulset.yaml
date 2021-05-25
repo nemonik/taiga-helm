@@ -1,0 +1,186 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "taiga.fullname" . }}-back
+  labels:
+    {{- include "taiga.labels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-back
+spec:
+  serviceName: {{ template "taiga.fullname" . }}-back
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "taiga.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: taiga-back
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "taiga.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: taiga-back
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.taigaBack.podSecurityContext | nindent 8 }}
+      containers:
+        - name: taiga-back
+          securityContext:
+            {{- toYaml .Values.taigaBack.securityContext | nindent 12 }}
+          image: "{{ .Values.taigaBack.image.repository }}:{{ .Values.taigaBack.image.tag }}"
+          imagePullPolicy: {{ .Values.taigaBack.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: TAIGA_URL
+              value: {{ .Values.env.taigaURL | quote }}
+            - name: TAIGA_WEBSOCKETS_URL
+              value: {{ .Values.env.taigaWebsocketsURL | quote }}
+
+            - name: TAIGA_SECRET_KEY
+              value: {{ .Values.env.taigaSecretKey | quote }}
+            - name: TAIGA_SITES_DOMAIN
+              value: {{ .Values.env.taigaSitesDomain | quote }}
+            - name: TAIGA_SITES_SCHEME
+              value: {{ .Values.env.taigaSitesScheme | quote }}
+
+            - name: SESSION_COOKIE_SECURE
+            {{ if eq (lower .Values.env.taigaSitesScheme) "https" }}
+              value: "true"
+            {{- else }}
+              value: "false"
+            {{- end }}
+            - name: CSRF_COOKIE_SECURE
+            {{- if eq (lower .Values.env.taigaSitesScheme) "https" }}
+              value: "true"
+            {{- else }}
+              value: "false"
+            {{- end }}
+
+            - name: PUBLIC_REGISTER_ENABLED
+              value: {{ lower .Values.env.publicRegisterEnabled | quote }}
+
+            - name: ENABLE_SLACK
+              value: {{ lower .Values.env.enableSlack | quote }}
+
+            - name: POSTGRES_HOST
+              value: "{{ template "taiga.fullname" . }}-db"
+            - name: POSTGRES_DB
+              value: {{ .Values.env.postgresDB | quote }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.env.postgresPassword | quote }}
+            - name: POSTGRES_USER
+              value: {{ .Values.env.postgresUser | quote }}
+
+            - name: RABBITMQ_PASS
+              value: {{ .Values.env.rabbitmqPass | quote }}
+            - name: RABBITMQ_USER
+              value: {{ .Values.env.rabbitmqUser | quote }}
+#            - name: EVENTS_PUSH_BACKEND_URL
+#              value: "amqp://taiga:taiga@{{ template "taiga.fullname" . }}-events-rabbitmq:{{ .Values.taigaEventsRabbitmq.service.port }}/taiga"
+#            - name: CELERY_BROKER_URL
+#              value: "amqp://taiga:taiga@{{ template "taiga.fullname" . }}-async-rabbitmq:{{  .Values.taigaAsyncRabbitmq.service.port }}/taiga"
+
+            {{- if eq (lower .Values.env.enableEmail) "true" }}
+            - name: EMAIL_BACKEND
+              value: {{ lower .Values.env.emailBackend | quote }}
+            - name: DEFAULT_FROM_EMAIL
+              value: {{ .Values.env.defaultFromEmail | quote }}
+            - name: EMAIL_HOST
+              value: {{ .Values.env.emailHost | quote }}
+            - name: EMAIL_PORT
+              value: {{ .Values.env.emailPort | quote }}
+            - name: EMAIL_HOST_USER
+              value: {{ .Values.env.emailHostUser | quote }}
+            - name: EMAIL_HOST_PASSWORD
+              value: {{ .Values.env.emailHostPassword | quote }}
+            - name: EMAIL_USE_TLS
+              value: {{ .Values.env.emailUseTLS | quote }}
+            - name: EMAIL_USE_SSL
+              value: {{ .Values.env.emailUseSSL | quote }}
+            {{- end }}
+
+            - name: ENABLE_TELEMETRY
+              value: {{ lower .Values.env.enableTelemetry | quote }}
+
+            {{- if eq (lower .Values.env.enableGithubAuth) "true" }}
+            - name: ENABLE_GITHUB_AUTH
+              value: {{ lower .Values.env.enableGithubAuth | quote }}
+            - name: GITHUB_API_CLIENT_ID
+              value: {{ .Values.env.githubApiClientID | quote }}
+            - name: GITHUB_API_CLIENT_SECRET
+              value: {{ .Values.env.githubApiClientSecret | quote }}
+            {{- end }}
+
+            {{- if eq (lower .Values.env.enableGitlabAuth) "true" }}
+            - name: ENABLE_GITLAB_AUTH
+              value: {{ lower .Values.env.enableGitlabAuth | quote }}
+            - name: GITLAB_CLIENT_ID
+              value: {{ .Values.env.gitlabClientID | quote }}
+            - name: GITLAB_API_CLIENT_SECRET
+              value: {{ .Values.env.gitlabApiClientSecret | quote }}
+            - name: GITLAB_URL
+              value: {{ .Values.env.gitlabURL | quote }}
+            {{- end }}
+
+            {{- if eq (lower .Values.env.enableGithubImporter) "true" }}
+            - name: ENABLE_GITHUB_IMPORTER
+              value: {{ lower .Values.env.enableGithubImporter | quote }}
+            - name: GITHUB_IMPORTER_CLIENT_ID
+              value: {{ .Values.env.githubImporterClientID | quote }}
+            - name: GITHUB_IMPORTER_CLIENT_SECRET
+              value: {{ .Values.env.githubImporterClientSecret | quote }} 
+            {{- end }}
+
+            {{- if eq (lower .Values.env.enableJiraImporter) "true" }}
+            - name: ENABLE_JIRA_IMPORTER
+              value: {{ lower .Values.env.enableJiraImporter | quote }}
+            - name: JIRA_IMPORTER_CONSUMER_KEY
+              value: {{ .Values.env.jiraImporterConsumerKey | quote }}
+            - name: JIRA_IMPORTER_CERT
+              value: {{ .Values.env.jiraImporterCert | quote }}
+            {{- end }}
+
+            {{- if eq (lower .Values.env.enableTrelloImporter) "true" }}
+            - name: ENABLE_TRELLO_IMPORTER
+              value: {{ lower .Values.env.enableTrelloImporter | quote }}
+            - name: TRELLO_IMPORTER_API_KEY
+              value: {{ .Values.env.trelloImporterApiKey | quote }}
+            - name: TRELLO_IMPORTER_SECRET_KEY
+              value: {{ .Values.env.trelloImporterSecretKey | quote }}
+            {{- end }}
+          volumeMounts:
+            - mountPath: /taiga-back/static
+              name: taiga-static-data
+            - mountPath: /taiga-back/media
+              name: taiga-media-data
+          {{- with .Values.taigaBack.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.taigaBack.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaBack.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaBack.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: Always
+      volumes:
+        - name: taiga-static-data
+          persistentVolumeClaim:
+            claimName: {{ include "taiga.fullname" . }}-static-data
+        - name: taiga-media-data
+          persistentVolumeClaim:
+            claimName: {{ include "taiga.fullname" . }}-media-data

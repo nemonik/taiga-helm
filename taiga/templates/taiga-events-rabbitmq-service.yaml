@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "taiga.fullname" . }}-events-rabbitmq
+  labels:
+    {{- include "taiga.labels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-events-rabbitmq
+spec:
+  type: {{ .Values.taigaEventsRabbitmq.service.type }}
+  ports:
+    - name: amqp
+      targetPort: amqp
+      port: {{ .Values.taigaEventsRabbitmq.service.port }}
+      protocol: TCP
+  selector:
+    {{- include "taiga.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-events-rabbitmq

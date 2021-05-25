@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "taiga.fullname" . }}-protected
+  labels:
+    {{- include "taiga.labels" . | nindent 4 }}
+    app.kubernetes.io/component: taiga-protected
+spec:
+  serviceName: {{ template "taiga.fullname" . }}-protected
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "taiga.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: taiga-protected
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "taiga.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: taiga-protected
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.taigaProtected.podSecurityContext | nindent 8 }}
+      containers:
+        - name: taiga-protected
+          securityContext:
+            {{- toYaml .Values.taigaProtected.securityContext | nindent 12 }}
+          image: "{{ .Values.taigaProtected.image.repository }}:{{ .Values.taigaProtected.image.tag }}"
+          imagePullPolicy: {{ .Values.taigaProtected.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8003
+          env:
+            - name: MAX_AGE
+              value: {{ .Values.env.maxAge | quote }}
+
+            - name: SECRET_KEY
+              value: {{ .Values.env.taigaSecretKey | quote }}
+          {{- with .Values.taigaProtected.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.taigaProtected.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaProtected.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.taigaProtected.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: Always
