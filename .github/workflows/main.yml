@@ -31,7 +31,6 @@ jobs:
           cd helm-charts
           mkdir -p sources
           cd sources
-          echo "rsync -av --progress ${GITHUB_WORKSPACE}/. ${PROJECT} --exclude helm-charts --exclude .git --exclude *.tgz --exclude delete_taiga.sh --exclude example-values.yaml --exclude createsuperuser.sh --exclude manage.sh --execlude start_taiga.sh --exclude .github --exclude .gitignore --exclude robot.txt"
           rsync -av --progress ${GITHUB_WORKSPACE}/. ${PROJECT} --exclude helm-charts --exclude .git --exclude *.tgz --exclude delete_taiga.sh --exclude example-values.yaml --exclude createsuperuser.sh --exclude manage.sh --exclude start_taiga.sh --exclude .github --exclude .gitignore --exclude robot.txt
           cd .. 
           helm package sources/*
