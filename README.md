@@ -1,6 +1,6 @@
 # taiga-helm
 
-A helm chart for Taiga.
+A helm chart for Taiga based off of the taiga-docker project found at [https://github.com/kaleidos-ventures/taiga-docker/](https://github.com/kaleidos-ventures/taiga-docker/).
 
 ## Requirements
 
