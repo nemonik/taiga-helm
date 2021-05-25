@@ -10,7 +10,7 @@
 # Intall Taiga
 
 # Taiga installed via Helm chart out out of this repo
-helm install taiga ./taiga --namespace taiga --create-namespace -f example-values.yaml
+helm install taiga . --namespace taiga --create-namespace -f example-values.yaml
 
 # Taiga installed via Helm chart
 # helm repo add nemonik https://nemonik.github.io/helm-charts/

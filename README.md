@@ -8,7 +8,11 @@ Written for Helm 3.
 
 ## Example use
 
-You can clone this repo, enter the repository folder and then execute something like the [start_taiga.sh](start_taiga.sh).
+You can clone this repo, enter the repository folder and then execute something like the [start_taiga.sh](start_taiga.sh):
+
+```
+./start_taiga.sh
+```
 
 The script will spin up Taiga using the example [example_values.yaml](example_values.yaml) values file.  You will need
 to provide your own if you want to configure other settings, and ingress, etc.  Look at [values.yaml](values.yaml)
