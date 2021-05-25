@@ -34,7 +34,7 @@ script at the root of the project provides an example for how to do this.
 
 ## Accessing Taiga
 
-If you spun up Taiga using the [start_taiga.sh](start_taiga.sh) script, you can access it in your
+If you've spun up Taiga using the [start_taiga.sh](start_taiga.sh) script, you can access it in your
 browser via exposing via `kubectl port-forward` like so
 
 ```
@@ -59,7 +59,7 @@ taigaGateway:
     tls: []
 ``` 
 
-This example use Traefik to expose the ingress.  Configuring Traefik is out of scope of this 
+This example uses Traefik to expose the ingress.  Configuring Traefik is out of scope of this 
 readme.  
 
 In my forthcoming updated Hands-n DevOps class I do this exposeing Taiga over https, so when that
