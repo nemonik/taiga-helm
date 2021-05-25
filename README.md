@@ -24,10 +24,12 @@ for what to place in your own.
 helm repo add nemonik https://nemonik.github.io/helm-charts/
 helm repo update
 helm search repo taiga
-wget https://raw.githubusercontent.com/nemonik/taiga-helm/master/example_values.yaml
+wget https://raw.githubusercontent.com/nemonik/taiga-helm/master/example-values.yaml
 helm install taiga nemonik/taiga --namespace taiga --create-namespace -f example-values.yaml
-kubectl get pods -n taiga -w
+watch -n 15 kubectl get pods -n taiga
 ```
+
+Give it time for Taiga to come fully up.  It has to "migrate" data...
 
 ## Create a super user in Taiga
 
