@@ -35,8 +35,9 @@ Give it time for Taiga to come fully up.  It has to "migrate" data...
 
 Once, all the pods are ready you will need to create a super user to access Taiga. To do this you 
 will need to run taigaio/taiga-back:latest container in the same namespace executing the command 
-`python manage.py createsuperuse` with a number over environmental variables set.  The [createsuperuser.sh](createsuperuser.sh) 
-script at the root of the project provides an example for how to do this.
+`python manage.py createsuperuse` with a number of other environmental variables set.  The 
+[createsuperuser.sh](createsuperuser.sh) script at the root of the project provides an example 
+for how to do this.
 
 ## Accessing Taiga
 
