@@ -32,7 +32,7 @@ spec:
         - name: taiga-back
           securityContext:
             {{- toYaml .Values.taigaBack.securityContext | nindent 12 }}
-          image: "{{ .Values.taigaBack.image.repository }}:{{ .Values.taigaBack.image.tag }}"
+          image: "{{ .Values.taigaBack.image.repository }}:{{ .Values.taigaBack.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.taigaBack.image.pullPolicy }}
           ports:
             - name: http

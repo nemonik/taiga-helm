@@ -32,7 +32,7 @@ spec:
         - name: taiga-events
           securityContext:
             {{- toYaml .Values.taigaEvents.securityContext | nindent 12 }}
-          image: "{{ .Values.taigaEvents.image.repository }}:{{ .Values.taigaEvents.image.tag }}"
+          image: "{{ .Values.taigaEvents.image.repository }}:{{ .Values.taigaEvents.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.taigaEvents.image.pullPolicy }}
           ports:
             - name: http

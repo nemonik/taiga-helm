@@ -32,7 +32,7 @@ spec:
         - name: taiga-async
           securityContext:
             {{- toYaml .Values.taigaAsync.securityContext | nindent 12 }}
-          image: "{{ .Values.taigaAsync.image.repository }}:{{ .Values.taigaAsync.image.tag }}"
+          image: "{{ .Values.taigaAsync.image.repository }}:{{ .Values.taigaAsync.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.taigaAsync.image.pullPolicy }}
           ports:
             - name: http
