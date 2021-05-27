@@ -15,8 +15,8 @@ You can clone this repo, enter the repository folder and then execute something 
 ```
 
 The script will spin up Taiga using the example [example_values.yaml](example_values.yaml) values file.  You will need
-to provide your own if you want to configure other settings, and ingress, etc.  Look at [values.yaml](values.yaml)
-for what to place in your own.
+to provide your own if you want to configure other settings, and ingress, etc.  Look at the [values.yaml](values.yaml)
+file for what to place in your own.
 
 ## To install via my chart repository
 
