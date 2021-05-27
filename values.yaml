@@ -367,7 +367,7 @@ taigaGateway:
     # traefik.ingress.kubernetes.io/service.sticky.cookie: 'true'
 
     hosts:
-      - host: gitlab.example.com
+      - host: taiga.example.com
         paths:
           -  "/"
 
