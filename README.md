@@ -60,7 +60,7 @@ taigaGateway:
     annotations:
       traefik.ingress.kubernetes.io/router.entrypoints: web
     hosts:
-      - host: taiga.nemonik.com
+      - host: taiga.example.com
         paths:
           -  "/"
     tls: []
@@ -69,7 +69,7 @@ taigaGateway:
 This example uses Traefik to expose the ingress.  Configuring Traefik is out of scope of this 
 readme.  
 
-In my forthcoming updated Hands-n DevOps class I do this exposeing Taiga over https, so when that
+In my forthcoming updated Hands-n DevOps class I do this exposing Taiga over https, so when that
 drops you can find some insight how to do so there.
 
 ## License
