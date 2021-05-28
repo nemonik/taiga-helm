@@ -8,8 +8,8 @@ metadata:
 spec:
   type: {{ .Values.taigaDB.service.type }}
   ports:
-    - name: sql
-      targetPort: sql
+    - name: tcp-postgresql
+      targetPort: tcp-postgresql
       port: {{ .Values.taigaDB.service.port }}
       protocol: TCP
   selector:

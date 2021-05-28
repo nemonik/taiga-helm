@@ -35,7 +35,7 @@ spec:
           image: "{{ .Values.taigaDB.image.repository }}:{{ .Values.taigaDB.image.tag }}"
           imagePullPolicy: {{ .Values.taigaDB.image.pullPolicy }}
           ports:
-            - name: sql
+            - name: tcp-postgresql
               containerPort: 5432
           env:
             - name: POSTGRES_DB
