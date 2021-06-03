@@ -10,8 +10,6 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
-  labels:
-    component: taiga-ingress
   {{- with .Values.taigaGateway.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
