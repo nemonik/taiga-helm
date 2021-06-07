@@ -362,10 +362,10 @@ taigaGateway:
 
   ingress:
     enable: false
+    annotations:
     # traefik.ingress.kubernetes.io/router.entrypoints: websecure
     # traefik.ingress.kubernetes.io/router.tls: 'true'
     # traefik.ingress.kubernetes.io/service.sticky.cookie: 'true'
-
     hosts:
       - host: taiga.example.com
         paths:
