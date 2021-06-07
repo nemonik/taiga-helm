@@ -7,7 +7,7 @@
 # You should have received a copy of the license with
 # this file. If not, please email <mjwalsh@nemonik.com>
 
-# Intall Taiga
+# Install Taiga
 
 # Taiga installed via Helm chart out out of this repo
 helm install taiga . --namespace taiga --create-namespace -f example-values.yaml
