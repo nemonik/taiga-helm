@@ -1,6 +1,6 @@
-[![GitHub license](https://img.shields.io/github/license/nemonik/taiga-helm/)](./LICENSE)
-[![GitHub Forks](https://img.shields.io/github/forks/nemonik/taiga-helm/?style=social)](https://github.com/nemonik/ameersbn-gitlab-helm/network/members)
-[![Github Stars](https://img.shields.io/github/stars/nemonik/taiga-helm/?style=social)](https://github.com/nemonik/ameersbn-gitlab-helm/stargazers)
+[![GitHub license](https://img.shields.io/github/license/nemonik/taiga-helm)](./LICENSE)
+[![GitHub Forks](https://img.shields.io/github/forks/nemonik/taiga-helm?style=social)](https://github.com/nemonik/ameersbn-gitlab-helm/network/members)
+[![Github Stars](https://img.shields.io/github/stars/nemonik/taiga-helm?style=social)](https://github.com/nemonik/ameersbn-gitlab-helm/stargazers)
 <a href="https://www.buymeacoffee.com/nemonik" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="20" width="85"></a>
 
 # taiga-helm
