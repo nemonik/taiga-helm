@@ -2,8 +2,8 @@ apiVersion: v2
 name: taiga
 description: A Helm chart for Taiga
 type: application
-version: 6.1.1
-appVersion: 6.1.1
+version: 6.4.2
+appVersion: 6.4.2
 maintainers:
   - name: Michael Joseph Walsh
     email: github.com@nemonik.com

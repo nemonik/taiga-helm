@@ -24,24 +24,21 @@ jobs:
           path: helm-charts
           ref: master
           
-      - name: Package chart
+      - name: Package and push chart
         run: |
           PROJECT=$(basename ${GITHUB_WORKSPACE})
           PROJECT="${PROJECT/-helm/}"
           cd helm-charts
+          git pull
           mkdir -p sources
           cd sources
           rsync -av --progress ${GITHUB_WORKSPACE}/. ${PROJECT} --exclude helm-charts --exclude .git --exclude *.tgz --exclude delete_taiga.sh --exclude example-values.yaml --exclude createsuperuser.sh --exclude manage.sh --exclude start_taiga.sh --exclude .github --exclude .gitignore --exclude robot.txt
           cd .. 
           helm package sources/*
           helm repo index --url https://nemonik.github.io/helm-charts/ .  
-          echo "CHARTS=$(pwd)" >> $GITHUB_ENV
+          git config user.name nemonik
+          git config user.email github.com@nemonik.com 
+          git add .
+          git commit -m "generated"
+          git push
           
-      - name: Commit and push changes to my helm charts repository
-        uses: actions-js/push@master
-        with:
-          github_token: ${{ secrets.ACTION_TOKEN }} 
-          directory: ${{ env.CHARTS }}
-          repository: nemonik/helm-charts
-          author_name: nemonik
-          author_email: github.com@nemonik.com
