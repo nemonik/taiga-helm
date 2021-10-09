@@ -74,8 +74,9 @@ taigaGateway:
 This example uses Traefik to expose the ingress. Configuring Traefik is out of scope of this
 readme.
 
-In my forthcoming updated Hands-on DevOps class I do this exposing Taiga over https, so when that
-drops you can find some insight how to do so there.
+In the [gen 2 version of my Hands-on DevOps class](https://github.com/nemonik/hands-on-DevOps-gen2/tree/master/taiga) I do this to expose Taiga over https.
+
+Peruse this for insight.
 
 ## License
 
