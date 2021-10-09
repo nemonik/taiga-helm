@@ -11,6 +11,10 @@ A helm chart for Taiga based off of the taiga-docker project found at [https://g
 
 Written for Helm 3.
 
+## Helm Chart values
+
+See <https://github.com/kaleidos-ventures/taiga-docker/#configuration> for documentation for the values used by the chart.
+
 ## Example use
 
 You can clone this repo, enter the repository folder and then execute something like the [start_taiga.sh](start_taiga.sh):
