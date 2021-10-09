@@ -11,7 +11,7 @@ A helm chart for Taiga based off of the taiga-docker project found at [https://g
 
 Written for Helm 3.
 
-## Helm Chart values
+## Helm chart values
 
 See <https://github.com/kaleidos-ventures/taiga-docker/#configuration> for documentation for the values used by the chart.
 
