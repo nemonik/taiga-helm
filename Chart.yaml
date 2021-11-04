@@ -2,7 +2,7 @@ apiVersion: v2
 name: taiga
 description: A Helm chart for Taiga
 type: application
-version: 6.4.2
+version: 6.4.3
 appVersion: 6.4.2
 maintainers:
   - name: Michael Joseph Walsh

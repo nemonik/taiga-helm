@@ -60,3 +60,15 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+
+{{/*
+Set value for Postgres Host
+*/}}
+{{- define "taiga.postgresHost" -}}
+{{- if .Values.env.postgresHost }}
+{{- print .Values.env.postgresHost }}
+{{- else }}
+{{- printf "%s-db" "taiga.fullname" }}
+{{- end }}
+{{- end }}
