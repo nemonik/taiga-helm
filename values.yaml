@@ -35,6 +35,8 @@ env:
 
   enableSlack: "false"
 
+  ## If used external postgres
+  postgresHost: ""
   postgresUser: "taiga"
   postgresPassword: "taiga"
   postgresDB: "taiga"

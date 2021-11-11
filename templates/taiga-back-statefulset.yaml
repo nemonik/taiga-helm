@@ -70,7 +70,7 @@ spec:
               value: {{ lower .Values.env.enableSlack | quote }}
 
             - name: POSTGRES_HOST
-              value: "{{ template "taiga.fullname" . }}-db"
+              value: {{ include "taiga.postgresHost" . }}
             - name: POSTGRES_DB
               value: {{ .Values.env.postgresDB | quote }}
             - name: POSTGRES_PASSWORD
