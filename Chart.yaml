@@ -3,7 +3,7 @@ name: taiga
 description: A Helm chart for Taiga
 type: application
 version: 6.4.3
-appVersion: 6.4.2
+appVersion: 6.4.3
 maintainers:
   - name: Michael Joseph Walsh
     email: github.com@nemonik.com
