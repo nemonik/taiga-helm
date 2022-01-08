@@ -190,6 +190,38 @@ taigaBack:
 
   affinity: {}
 
+  # Extra environment variables
+  extraEnv: []
+  #- name: SOME_PLUGIN_RELATED_ENV
+  #  value: "True"
+  #- name: SOME_SECRET_ENV
+  #  valueFrom:
+  #    secretKeyRef:
+  #      name: secret_name
+  #      key: secret_key
+
+  # Allow configuration of lifecycle hooks
+  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/
+  lifecycle: {}
+  # postStartCommand: []
+  # - /bin/sh
+  # - -c
+  # - "cat /tmp/ca/ca.crt >> /opt/venv/lib/python3.7/site-packages/certifi/cacert.pem"
+  # preStopCommand: []
+
+  # Extra mounts for the pod. Useful for adding an onprem ca chain which can then be imported via a postStart command.
+  # kubectl create configmap ca-certs --from-file=ca.crt=/pathto/ca.crt
+  extraVolumes: []
+  #- name: certs
+  #  configMap:
+  #    name: ca-certs
+  #    items:
+  #    - key: "ca.crt"
+  #      path: "ca.crt"
+  extraVolumeMounts: []
+  #- name: certs
+  #  mountPath: /tmp/ca
+
 
 taigaDB:
 
