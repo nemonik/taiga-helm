@@ -80,7 +80,7 @@ spec:
             {{- if eq (lower .Values.env.publicRegisterEnabled) "true" }}
               value: "True"
             {{- else }}
-              value: "True"
+              value: "False"
             {{- end }}
 
             - name: ENABLE_SLACK

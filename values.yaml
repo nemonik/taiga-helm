@@ -376,6 +376,16 @@ taigaFront:
 
   affinity: {}
 
+  # Extra environment variables
+  extraEnv: []
+  #- name: SOME_PLUGIN_RELATED_ENV
+  #  value: "True"
+  #- name: SOME_SECRET_ENV
+  #  valueFrom:
+  #    secretKeyRef:
+  #      name: secret_name
+  #      key: secret_key
+
 
 taigaGateway:
 
