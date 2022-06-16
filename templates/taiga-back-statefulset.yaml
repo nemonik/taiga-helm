@@ -89,7 +89,7 @@ spec:
 
             {{- if eq (lower .Values.env.enableEmail) "true" }}
             - name: EMAIL_BACKEND
-              value: {{ lower .Values.env.emailBackend | quote }}
+              value: {{ .Values.env.emailBackend | quote }}
             - name: DEFAULT_FROM_EMAIL
               value: {{ .Values.env.defaultFromEmail | quote }}
             - name: EMAIL_HOST
