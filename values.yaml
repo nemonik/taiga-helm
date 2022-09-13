@@ -82,6 +82,8 @@ env:
 
   maxAge: "360"
 
+  enableGravatar: "false"
+
 taigaAsyncRabbitmq:
 
   image:

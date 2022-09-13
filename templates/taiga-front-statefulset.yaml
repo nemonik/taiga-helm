@@ -79,6 +79,10 @@ spec:
             - name: ENABLE_TRELLO_IMPORTER
               value: {{ lower .Values.env.enableTrelloImporter | quote }}
             {{- end }}
+
+            - name: ENABLE_GRAVATAR
+              value: {{ lower .Values.env.enableGravatar | quote }}
+
           {{- with .Values.taigaFront.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
