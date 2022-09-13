@@ -32,6 +32,6 @@ data:
         "enableGithubImporter": ${ENABLE_GITHUB_IMPORTER},
         "enableJiraImporter": ${ENABLE_JIRA_IMPORTER},
         "enableTrelloImporter": ${ENABLE_TRELLO_IMPORTER},
-        "gravatar": false,
+        "gravatar": ${ENABLE_GRAVATAR},
         "rtlLanguages": ["fa"]
     }
