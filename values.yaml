@@ -363,7 +363,7 @@ taigaGateway:
     accessMode: 'ReadWriteOnce'
 
   ingress:
-    enable: false
+    enabled: false
     annotations:
     # traefik.ingress.kubernetes.io/router.entrypoints: websecure
     # traefik.ingress.kubernetes.io/router.tls: 'true'
@@ -372,6 +372,10 @@ taigaGateway:
       - host: taiga.example.com
         paths:
           -  "/"
+    tls:
+      - hosts:
+          - taiga.example.com
+        secretName: tls-taiga
 
   service:
     type: ClusterIP
