@@ -37,6 +37,7 @@ env:
 
   ## If used external postgres
   postgresHost: ""
+  postgresPort: 5432
   postgresUser: "taiga"
   postgresPassword: "taiga"
   postgresDB: "taiga"

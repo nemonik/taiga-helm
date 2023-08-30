@@ -71,6 +71,8 @@ spec:
 
             - name: POSTGRES_HOST
               value: {{ include "taiga.postgresHost" . }}
+            - name: POSTGRES_PORT
+              value: {{ .Values.env.postgresPort | quote }}
             - name: POSTGRES_DB
               value: {{ .Values.env.postgresDB | quote }}
             - name: POSTGRES_PASSWORD
