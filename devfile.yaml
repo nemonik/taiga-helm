@@ -1,6 +1,6 @@
 schemaVersion: 2.1.0
 metadata:
-  name: bash
+  name: taiga-helm-dev
 components:
   - name: tools
     container:
