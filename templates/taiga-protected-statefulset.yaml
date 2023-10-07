@@ -32,7 +32,7 @@ spec:
         - name: taiga-protected
           securityContext:
             {{- toYaml .Values.taigaProtected.securityContext | nindent 12 }}
-          image: "{{ .Values.taigaProtected.image.repository }}:{{ .Values.taigaProtected.image.tag }}"
+          image: "{{ .Values.taigaProtected.image.repository }}:{{ .Values.taigaProtected.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.taigaProtected.image.pullPolicy }}
           ports:
             - name: http
