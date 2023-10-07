@@ -69,6 +69,6 @@ Set value for Postgres Host
 {{- if .Values.env.postgresHost }}
 {{- print .Values.env.postgresHost }}
 {{- else }}
-{{- printf "%s-db" "taiga.fullname" }}
+{{- printf "%s-db" (include "taiga.fullname" .) }}
 {{- end }}
 {{- end }}

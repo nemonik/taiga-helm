@@ -130,7 +130,7 @@ taigaAsync:
   image:
     repository: taigaio/taiga-back      
     pullPolicy: IfNotPresent
-    tag: "{{ .Chart.AppVersion }}"
+    tag: ""
 
   service:
     type: ClusterIP
@@ -163,7 +163,7 @@ taigaBack:
   image:
     repository: taigaio/taiga-back
     pullPolicy: IfNotPresent
-    tag: " {{ .Chart.AppVersion }}"
+    tag: ""
 
   service:
     type: ClusterIP
@@ -284,7 +284,7 @@ taigaEvents:
   image:
     repository: taigaio/taiga-events     
     pullPolicy: IfNotPresent
-    tag: "6.1.1"
+    tag: "6.4.0"
 
   service:
     type: ClusterIP
@@ -317,7 +317,7 @@ taigaFront:
   image:
     repository: taigaio/taiga-front  
     pullPolicy: IfNotPresent
-    tag: "{{ .Chart.AppVersion }}"
+    tag: ""
 
   service:
     type: ClusterIP
@@ -404,7 +404,7 @@ taigaProtected:
   image:
     repository: taigaio/taiga-protected     
     pullPolicy: IfNotPresent
-    tag: "{{ .Chart.AppVersion }}"
+    tag: "6.4.0"
 
   service:
     type: ClusterIP
