@@ -230,7 +230,7 @@ taigaDB:
   image:
     repository: postgres     
     pullPolicy: IfNotPresent
-    tag: "12.3"
+    tag: "12.15"
 
   persistence:
     ## Volume used to store Taiga DB data. Default is boolean `false`.
@@ -316,7 +316,7 @@ taigaEvents:
   image:
     repository: taigaio/taiga-events     
     pullPolicy: IfNotPresent
-    tag: "6.4.0"
+    tag: ""
 
   service:
     type: ClusterIP
@@ -392,7 +392,7 @@ taigaGateway:
   image:
     repository: nginx    
     pullPolicy: IfNotPresent
-    tag: "1.19-alpine"
+    tag: "1.25.2"
 
   persistence:
     ## Volume used to store the Taiga Gateway's data. Default is boolean `false`.
@@ -446,7 +446,7 @@ taigaProtected:
   image:
     repository: taigaio/taiga-protected     
     pullPolicy: IfNotPresent
-    tag: "6.4.0"
+    tag: ""
 
   service:
     type: ClusterIP

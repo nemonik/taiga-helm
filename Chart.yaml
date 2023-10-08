@@ -2,8 +2,8 @@ apiVersion: v2
 name: taiga
 description: A Helm chart for Taiga
 type: application
-version: 6.4.2
-appVersion: 6.4.2
+version: 6.7.0
+appVersion: 6.7.0
 maintainers:
   - name: Matthew B. Dowell
     email: mbd06b@gmail.com
