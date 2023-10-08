@@ -44,6 +44,8 @@ spec:
               value: {{ .Values.env.postgresPassword | quote }}
             - name: POSTGRES_USER
               value: {{ .Values.env.postgresUser | quote }}
+            - name: PGDATA
+              value: "/var/lib/postgresql/data/taiga"
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: taiga-db-data
