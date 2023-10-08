@@ -34,6 +34,19 @@ spec:
             {{- toYaml .Values.taigaBack.securityContext | nindent 12 }}
           image: "{{ .Values.taigaBack.image.repository }}:{{ .Values.taigaBack.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.taigaBack.image.pullPolicy }}
+          lifecycle:
+          {{-   if .Values.taigaBack.lifecycle.postStartCommand }}
+            postStart:
+              exec:
+                command:
+                  {{- toYaml .Values.taigaBack.lifecycle.postStartCommand | nindent 18 -}}
+          {{-   end }}
+          {{-   if .Values.taigaBack.lifecycle.preStopCommand }}
+            preStop:
+              exec:
+                command:
+                  {{- toYaml .Values.taigaBack.lifecycle.preStopCommand | nindent 18 -}}
+          {{-   end }}
           ports:
             - name: http
               containerPort: 8000
@@ -64,7 +77,11 @@ spec:
             {{- end }}
 
             - name: PUBLIC_REGISTER_ENABLED
-              value: {{ lower .Values.env.publicRegisterEnabled | quote }}
+            {{- if eq (lower .Values.env.publicRegisterEnabled) "true" }}
+              value: "True"
+            {{- else }}
+              value: "False"
+            {{- end }}
 
             - name: ENABLE_SLACK
               value: {{ lower .Values.env.enableSlack | quote }}
@@ -155,11 +172,17 @@ spec:
             - name: TRELLO_IMPORTER_SECRET_KEY
               value: {{ .Values.env.trelloImporterSecretKey | quote }}
             {{- end }}
+            {{- if .Values.taigaBack.extraEnv }}
+{{ toYaml .Values.taigaBack.extraEnv | indent 12 }}
+            {{- end }}
           volumeMounts:
             - mountPath: /taiga-back/static
               name: taiga-static-data
             - mountPath: /taiga-back/media
               name: taiga-media-data
+            {{- if .Values.taigaBack.extraVolumeMounts }}
+{{ toYaml .Values.taigaBack.extraVolumeMounts | indent 12 }}
+            {{- end }}
           {{- with .Values.taigaBack.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
@@ -184,3 +207,6 @@ spec:
         - name: taiga-media-data
           persistentVolumeClaim:
             claimName: {{ include "taiga.fullname" . }}-media-data
+        {{- if .Values.taigaBack.extraVolumes }}
+{{ toYaml .Values.taigaBack.extraVolumes | indent 8 }}
+        {{- end }}
