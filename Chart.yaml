@@ -1,5 +1,5 @@
 apiVersion: v2
-name: taiga
+name: taiga-oauth
 description: A Helm chart for Taiga
 type: application
 version: 6.7.0
