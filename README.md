@@ -30,7 +30,7 @@ file for what to place in your own.
 ## To install via my chart repository
 
 ```
-helm install taiga oci://harbor.ethosengine.com/ethosengine/taiga --version 6.4.2 --namespace taiga --create-namespace -f example-values.yaml
+helm install taiga oci://harbor.ethosengine.com/ethosengine/taiga --version 6.7.0 --namespace taiga --create-namespace -f example-values.yaml
 watch -n 15 kubectl get pods -n taiga
 ```
 
