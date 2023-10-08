@@ -6,6 +6,9 @@ components:
     container:
       image: quay.io/devfile/universal-developer-image:ubi8-latest
       memoryLimit: 3Gi
+      env:
+        - name: HELM_EXPERIMENTAL_OCI
+          value: "1"
 
 commands:
   - id: run-main-script
