@@ -1,8 +1,7 @@
 [![Contribute](https://www.eclipse.org/che/contribute.svg)](https://code.ethosengine.com/#https://github.com/Mbd06b/taiga-helm)
-[![GitHub license](https://img.shields.io/github/license/nemonik/taiga-helm)](./LICENSE)
-[![GitHub Forks](https://img.shields.io/github/forks/nemonik/taiga-helm?style=social)](https://github.com/nemonik/ameersbn-gitlab-helm/network/members)
-[![Github Stars](https://img.shields.io/github/stars/nemonik/taiga-helm?style=social)](https://github.com/nemonik/ameersbn-gitlab-helm/stargazers)
-<a href="https://www.buymeacoffee.com/nemonik" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="20" width="85"></a>
+[![GitHub license](https://img.shields.io/github/license/mbd06b/taiga-helm)](./LICENSE)
+
+<a href="https://www.buymeacoffee.com/mbd06b" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="20" width="85"></a>
 
 # taiga-helm
 
@@ -31,11 +30,7 @@ file for what to place in your own.
 ## To install via my chart repository
 
 ```
-helm repo add nemonik https://nemonik.github.io/helm-charts/
-helm repo update
-helm search repo taiga
-wget https://raw.githubusercontent.com/nemonik/taiga-helm/master/example-values.yaml
-helm install taiga nemonik/taiga --namespace taiga --create-namespace -f example-values.yaml
+helm install taiga oci://harbor.ethosengine.com/ethosengine/taiga --version 6.4.2 --namespace taiga --create-namespace -f example-values.yaml
 watch -n 15 kubectl get pods -n taiga
 ```
 
@@ -79,8 +74,6 @@ taigaGateway:
 This example uses Traefik to expose the ingress. Configuring Traefik is out of scope of this
 readme.
 
-In the [gen 2 version of my Hands-on DevOps class](https://github.com/nemonik/hands-on-DevOps-gen2/tree/master/taiga) I do this to expose Taiga over https.
-
 Peruse this for insight.
 
 ## License
@@ -89,4 +82,4 @@ Peruse this for insight.
 
 ## Author Information
 
-Michael Joseph Walsh <mjwalsh@nemonik.com>
+Matthew Dowell <mbd06b@gmail.com>
